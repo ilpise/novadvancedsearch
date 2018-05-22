@@ -42,7 +42,6 @@
 	data-search_ssl="{$search_ssl}"
 	data-link_search_ssl="{if $search_ssl == 1}{$link->getPageLink('search', true)|addslashes}{else}{$link->getPageLink('search')|addslashes}{/if}"
 	data-action="{$link->getModuleLink('novadvancedsearch', 'result')|escape:'html'}">
-	<div>{$link->getModuleLink('novadvancedsearch', 'result')|escape:'html'}</div>
 	<form method="get" action="{$link->getModuleLink('novadvancedsearch', 'result')|escape:'html'}" id="searchbox" class="form-novadvancedsearch">
 		<input type="hidden" name="fc" value="module">
 		<input type="hidden" name="module" value="novadvancedsearch">

@@ -25,6 +25,8 @@
 
 	$( ".pisebtn" ).click(function() {
 		var $page = $("input[name=page]");
+		$(this).removeClass("button-not-current");
+		$(this).addClass("btn-secondary");
 		$page.val(parseInt($(this).text()));
 		$("#searchbox").submit();
 	});
