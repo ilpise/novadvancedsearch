@@ -36,15 +36,20 @@ class NovAdvancedSearchResultModuleFrontController extends ModuleFrontController
 		if (($query = Tools::getValue('search_query', Tools::getValue('ref'))) && !is_array($query))
 		{
 			$this->n = abs((int)(Tools::getValue('n', Configuration::get('PS_PRODUCTS_PER_PAGE'))));
-			$this->p = abs((int)(Tools::getValue('p', 1)));
+			$this->p = abs((int)(Tools::getValue('page', 1)));
+			print_r($this->p);
+			// $num_pages = (int)Tools::getValue('page_number');
 			$original_query = $query;
 			$query = Tools::replaceAccentedChars(urldecode($query));
 			$id_category = (int)Tools::getValue('id_category');
 			$search = $this->findByCategory($id_category,$this->context->language->id, $query, $this->p, $this->n, $this->orderBy, $this->orderWay);
-			if (is_array($search['result']))
-				foreach ($search['result'] as &$product)
+			if (is_array($search['result'])){
+				// print_r(floor($search['total']/$this->n));
+				$numpages = floor($search['total']/$this->n);
+				foreach ($search['result'] as &$product){
 					$product['link'] .= (strpos($product['link'], '?') === false ? '?' : '&').'search_query='.urlencode($query).'&results='.(int)$search['total'];
-
+				}
+			}
 			Hook::exec('actionSearch', array('expr' => $query, 'total' => $search['total']));
 			$nbProducts = $search['total'];
 			$assembler = new ProductAssembler(Context::getContext());
@@ -72,6 +77,8 @@ class NovAdvancedSearchResultModuleFrontController extends ModuleFrontController
 
 			$this->context->smarty->assign(
 				array(
+					'total' => $search['total'],
+					'numpages' => $numpages,
 					'products' =>  $search['result'],
 				)
 			);
@@ -240,33 +247,6 @@ class NovAdvancedSearchResultModuleFrontController extends ModuleFrontController
 				GROUP BY product_shop.id_product
 				'.($order_by ? 'ORDER BY  '.$alias.$order_by : '').($order_way ? ' '.$order_way : '').'
 				LIMIT '.(int)(($page_number - 1) * $page_size).','.(int)$page_size;
-
-		// $sql = 'SELECT p.*, product_shop.*, stock.out_of_stock, IFNULL(stock.quantity, 0) as quantity,
-		// 		pl.`description_short`, pl.`available_now`, pl.`available_later`, pl.`link_rewrite`, pl.`name`,
-		// 	 MAX(image_shop.`id_image`) id_image, il.`legend`, m.`name` manufacturer_name '.$score.(Combination::isFeatureActive() ? ', MAX(product_attribute_shop.`id_product_attribute`) id_product_attribute' : '').',
-		// 		DATEDIFF(
-		// 			p.`date_add`,
-		// 			DATE_SUB(
-		// 				NOW(),
-		// 				INTERVAL '.(Validate::isUnsignedInt(Configuration::get('PS_NB_DAYS_NEW_PRODUCT')) ? Configuration::get('PS_NB_DAYS_NEW_PRODUCT') : 20).' DAY
-		// 			)
-		// 		) > 0 new'.(Combination::isFeatureActive() ? ', MAX(product_attribute_shop.minimal_quantity) AS product_attribute_minimal_quantity' : '').'
-		// 		FROM '._DB_PREFIX_.'product p
-		// 		'.Shop::addSqlAssociation('product', 'p').'
-		// 		INNER JOIN `'._DB_PREFIX_.'product_lang` pl ON (
-		// 			p.`id_product` = pl.`id_product`
-		// 			AND pl.`id_lang` = '.(int)$id_lang.Shop::addSqlRestrictionOnLang('pl').'
-		// 		)
-		// 		'.(Combination::isFeatureActive() ? 'LEFT JOIN `'._DB_PREFIX_.'product_attribute` pa	ON (p.`id_product` = pa.`id_product`)
-		// 		'.Shop::addSqlAssociation('product_attribute', 'pa', false, 'product_attribute_shop.`default_on` = 1').'
-		// 		'.Product::sqlStock('p', 'product_attribute_shop', false, $context->shop) :  Product::sqlStock('p', 'product', false, Context::getContext()->shop)).'
-		// 		LEFT JOIN `'._DB_PREFIX_.'manufacturer` m ON m.`id_manufacturer` = p.`id_manufacturer`
-		// 		LEFT JOIN `'._DB_PREFIX_.'image` i ON (i.`id_product` = p.`id_product`)'.
-		// 		Shop::addSqlAssociation('image', 'i', false, 'image_shop.cover=1').'
-		// 		LEFT JOIN `'._DB_PREFIX_.'image_lang` il ON (i.`id_image` = il.`id_image` AND il.`id_lang` = '.(int)$id_lang.')
-		// 		WHERE p.`id_product` '.$product_pool.'
-		// 		GROUP BY product_shop.id_product
-		// 		'.($order_by ? 'ORDER BY  '.$alias.$order_by : '').($order_way ? ' '.$order_way : '');
 
 		$result = $db->executeS($sql);
 
