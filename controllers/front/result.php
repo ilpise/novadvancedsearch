@@ -37,7 +37,7 @@ class NovAdvancedSearchResultModuleFrontController extends ModuleFrontController
 		{
 			$this->n = abs((int)(Tools::getValue('n', Configuration::get('PS_PRODUCTS_PER_PAGE'))));
 			$this->p = abs((int)(Tools::getValue('page', 1)));
-			print_r($this->p);
+			// print_r($this->p);
 			// $num_pages = (int)Tools::getValue('page_number');
 			$original_query = $query;
 			$query = Tools::replaceAccentedChars(urldecode($query));

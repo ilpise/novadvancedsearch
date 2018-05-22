@@ -50,6 +50,7 @@
 		<input type="hidden" name="orderby" value="position" />
 		<input type="hidden" name="orderway" value="desc" />
 		<input type="hidden" name="id_category" class="id_category" value="0" />
+		<input type="hidden" name="page" class="page" value="0" />
 		{*
 		<div class="d-flex align-items-center">
 			<select name ="id_category"  class="nov_category_tree">

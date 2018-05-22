@@ -12,13 +12,21 @@
 	var $instantsearch = $element.data("instantsearch");
 
 	//select list for search type
+	// Drop down list categorie
 	$('.form-novadvancedsearch').on('click','li', function(e){
+		// console.log('form-novadvancedsearch cliccked');
 		e.preventDefault();
 		$('.form-novadvancedsearch .dropdown-item').removeClass('active');
 		$(this).addClass('active');
 		var id_category = $(this).data("value");
 		$('.id_category','.form-novadvancedsearch').val(id_category);
 		$('.form-novadvancedsearch .dropdown-toggle').html($(this).html());
+	});
+
+	$( ".pisebtn" ).click(function() {
+		var $page = $("input[name=page]");
+		$page.val(parseInt($(this).text()));
+		$("#searchbox").submit();
 	});
 
 	if($ajaxsearch){

@@ -54,16 +54,17 @@
                     {assign var=num_def value=(int)Configuration::get('PS_PRODUCTS_PER_PAGE')}
                     {assign var=num_pages value=$num_prod/$num_def}
 
-                    <div>
-                      <h1>TEST</h1>
-                      <pre>{$total}</pre>
-                      <hr>
+                    <!-- <div> -->
+                      <!-- <h1>TEST</h1> -->
+                      <!-- <pre>{$total}</pre> -->
+                      <!-- <hr> -->
                       <!-- <pre>{Tools::getValue('search_query')|@print_r}</pre> -->
+
                       <!-- <pre>{$num_prod}</pre>
                       <pre>{$num_def}</pre>
                       <pre>{(int)$num_pages}</pre> -->
-                      <hr>
-                    </div>
+                      <!-- <hr> -->
+                    <!-- </div> -->
                     <!-- Assign the get parameters inside the current url to variables -->
                     {assign var=fc value=Tools::getValue('fc')}
                     {assign var=module value=Tools::getValue('module')}
@@ -97,7 +98,7 @@
 
                     <!-- taken from /themes/vinova_digimart/templates/catalog/listing/product-list.tpl -->
                     {block name='product_list_bottom'}
-                    	{include file='catalog/_partials/products-bottom.tpl' listing=$listing}
+                    	{include file='catalog/_partials/products-bottom-nas.tpl' listing=$listing}
                     {/block}
                 {/if}
 
