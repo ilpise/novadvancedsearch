@@ -91,6 +91,7 @@
                     <!-- <pre>{$listing.pagination|@print_r}</pre> -->
                     <!-- <pre>{$page|@print_r}</pre> -->
 
+                    {assign var=actpage value=Tools::getValue('page')}
                     <!-- taken from /themes/vinova_digimart/templates/catalog/listing/product-list.tpl -->
                     {block name='product_list'}
                       {include file='catalog/_partials/products.tpl' listing=$listing}
@@ -98,7 +99,7 @@
 
                     <!-- taken from /themes/vinova_digimart/templates/catalog/listing/product-list.tpl -->
                     {block name='product_list_bottom'}
-                    	{include file='catalog/_partials/products-bottom-nas.tpl' listing=$listing}
+                    	{include file='catalog/_partials/products-bottom-nas.tpl' listing=$listing actpage=$actpage}
                     {/block}
                 {/if}
 

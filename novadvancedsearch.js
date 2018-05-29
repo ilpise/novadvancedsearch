@@ -25,8 +25,10 @@
 
 	$( ".pisebtn" ).click(function() {
 		var $page = $("input[name=page]");
-		$(this).removeClass("button-not-current");
-		$(this).addClass("btn-secondary");
+		// $(this).removeClass("button-not-current");
+		// $(this).addClass("btn-secondary");
+		$(this).removeClass("btn-secondary");
+		$(this).addClass("button-not-current");
 		$page.val(parseInt($(this).text()));
 		$("#searchbox").submit();
 	});
