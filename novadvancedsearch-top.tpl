@@ -72,10 +72,18 @@
 			    </button>
 			    <div  class="dropdown-menu">
 			    	<li class="dropdown-item {if !isset($id_category) || $id_category == 0}active{/if}" data-value="0">{l s='All Categories' mod='novadvancedsearch'}</li>
-					<li class="dropdown-item {if !isset($id_category) || $id_category == $novcategoriesTree.id}active{/if}" data-value="{$novcategoriesTree.id}">{$novcategoriesTree.name}</li>
+
+							{if $novcategoriesTree.name !== 'Home'}
+								<li class="dropdown-item {if !isset($id_category) || $id_category == $novcategoriesTree.id}active{/if}" data-value="{$novcategoriesTree.id}">{$novcategoriesTree.name}</li>
+							{/if}
+
 			        {if isset($novcategoriesTree.children)}
 			            {foreach $novcategoriesTree.children as $child}
-			                {include file="./category-tree-branch.tpl" node=$child lever=1}
+											<hr>
+											<div class="dropdown-item dropClick" data-value="{$child.id}">{$child.name}</div>
+												<ul class="dropDown">
+				                	{include file="./category-tree-branch.tpl" node=$child lever=1}
+												</ul>
 			            {/foreach}
 			        {/if}
 			    </div >

@@ -33,6 +33,13 @@
 		$("#searchbox").submit();
 	});
 
+	$( ".dropClick" ).click(function(event) {
+		$(this).next('ul').toggle();
+		event.stopPropagation();
+		event.preventDefault();
+		// console.log('clicked div dropClick');
+	});
+
 	if($ajaxsearch){
 		$('document').ready(function() {
 			var $input = $("#search_query_"+$novadvancedsearch_type);

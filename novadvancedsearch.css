@@ -36,3 +36,6 @@ form#searchbox input#search_query_block{
 }
 form#searchbox input#search_button{padding: 1px 4px;}
 
+ul.dropDown {
+	display: none;
+}
