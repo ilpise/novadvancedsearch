@@ -42,6 +42,9 @@ class NovAdvancedSearchResultModuleFrontController extends ModuleFrontController
 			$original_query = $query;
 			$query = Tools::replaceAccentedChars(urldecode($query));
 			$id_category = (int)Tools::getValue('id_category');
+
+			// print_r($id_category);
+
 			$search = $this->findByCategory($id_category,$this->context->language->id, $query, $this->p, $this->n, $this->orderBy, $this->orderWay);
 			if (is_array($search['result'])){
 				// print_r(floor($search['total']/$this->n));
@@ -104,8 +107,29 @@ class NovAdvancedSearchResultModuleFrontController extends ModuleFrontController
 		$score_array = array();
 		$words = explode(' ', Search::sanitize($expr, $id_lang, false, $context->language->iso_code));
 		$where = '';
-		if($id_category != 0)
-			$where = ' AND  cp.id_category = '.(int)$id_category;
+		if($id_category != 0) {
+			// {assign var=cat value=(int)Category::getNestedCategories($child.id)}
+			$category_tree = Category::getNestedCategories($id_category);
+			// <pre>{cat|@print_r}</pre>
+			// print('<pre>');
+			// print_r($category_tree[$id_category]['children']);
+			// print('</pre>');
+			$sub_cat_ids = array();
+			foreach($category_tree[$id_category]['children'] as $key => $val){
+				$sub_cat_ids[] = $key;
+			}
+
+			$comma_separated = implode(',' , $sub_cat_ids);
+			// print('<pre>');
+			// print_r($sub_cat_ids);
+			// echo '------';
+			// print_r($comma_separated);
+			// print('</pre>');
+
+			// $where = ' AND  cp.id_category = '.(int)$id_category;
+			$where = ' AND  cp.id_category in ('.$comma_separated.')';
+		}
+		// print_r($where);
 		foreach ($words as $key => $word)
 			if (!empty($word) && strlen($word) >= (int)Configuration::get('PS_SEARCH_MINWORDLEN'))
 			{

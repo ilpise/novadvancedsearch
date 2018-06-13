@@ -112,15 +112,6 @@
       </section>
     {/block}
 
-    <!-- [pages] => Array ( [0] => Array ( [type] => previous [page] => 1 [clickable] => [current] => [url] => http://www.i-reuse.it/74-my-phone?page=1&q=74-my-phone )
-                       [1] => Array ( [type] => page [page] => 1 [clickable] => [current] => 1 [url] => http://www.i-reuse.it/74-my-phone?page=1&q=74-my-phone )
-                       [2] => Array ( [type] => page [page] => 2 [clickable] => 1 [current] => [url] => http://www.i-reuse.it/74-my-phone?page=2&q=74-my-phone )
-                       [3] => Array ( [type] => page [page] => 3 [clickable] => 1 [current] => [url] => http://www.i-reuse.it/74-my-phone?page=3&q=74-my-phone )
-                       [4] => Array ( [type] => spacer [page] => [clickable] => [current] => [url] => http://www.i-reuse.it/74-my-phone?q=74-my-phone )
-                       [5] => Array ( [type] => page [page] => 277 [clickable] => 1 [current] => [url] => http://www.i-reuse.it/74-my-phone?page=277&q=74-my-phone )
-                       [6] => Array ( [type] => next [page] => 2 [clickable] => 1 [current] => [url] => http://www.i-reuse.it/74-my-phone?page=2&q=74-my-phone )
-                     ) -->
-
     {block name='page_footer_container'}
       <footer class="page-footer">
         {block name='page_footer'}

@@ -80,10 +80,13 @@
 			        {if isset($novcategoriesTree.children)}
 			            {foreach $novcategoriesTree.children as $child}
 											<hr>
-											<div class="dropdown-item dropClick" data-value="{$child.id}">{$child.name}</div>
+
+											<li class="dropdown-item" data-value="{$child.id}" {if isset($id_category) && $id_category == $child.id}selected{/if}>{$child.name}</li>
+
+											<!-- <div class="dropdown-item dropClick" data-value="{$child.id}">{$child.name}</div>
 												<ul class="dropDown">
 				                	{include file="./category-tree-branch.tpl" node=$child lever=1}
-												</ul>
+												</ul> -->
 			            {/foreach}
 			        {/if}
 			    </div >
