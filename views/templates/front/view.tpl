@@ -49,22 +49,11 @@
                       {include file='catalog/_partials/products.tpl' listing=$listing}
                     {/block}
                 {else}
-                    <!-- {(int)Configuration::get('PS_PRODUCTS_PER_PAGE')} -->
+
                     {assign var=num_prod value=count($products)}
                     {assign var=num_def value=(int)Configuration::get('PS_PRODUCTS_PER_PAGE')}
                     {assign var=num_pages value=$num_prod/$num_def}
 
-                    <!-- <div> -->
-                      <!-- <h1>TEST</h1> -->
-                      <!-- <pre>{$total}</pre> -->
-                      <!-- <hr> -->
-                      <!-- <pre>{Tools::getValue('search_query')|@print_r}</pre> -->
-
-                      <!-- <pre>{$num_prod}</pre>
-                      <pre>{$num_def}</pre>
-                      <pre>{(int)$num_pages}</pre> -->
-                      <!-- <hr> -->
-                    <!-- </div> -->
                     <!-- Assign the get parameters inside the current url to variables -->
                     {assign var=fc value=Tools::getValue('fc')}
                     {assign var=module value=Tools::getValue('module')}
@@ -82,14 +71,9 @@
                       {assign var=url value="`$link->getModuleLink('novadvancedsearch', 'result')|escape:'html'`?fc=`$fc`&module=`$module`&controller=`$controller`&orderby=`$orderby`&orderway=`$orderway`&id_category=`$id_category`&search_query=`$search_query`&page=`$var`&submit_search=`$submit_search`"}
                       {append var=pages value=['type' => page, 'page' => $var, 'clickable' => 1, 'current' => 1, 'url' => $url]}
                     {/for}
-                    <!-- <pre>{$pages|@print_r}</pre> -->
+
                     {assign var=pagination value=['total_items' => $total, 'items_shown_from' => 1, 'items_shown_to' => (int)Configuration::get('PS_PRODUCTS_PER_PAGE'), 'pages' => $pages]}
                     {assign var=listing value=['label'=>'', 'products' => $products, 'pagination' => $pagination]}
-                    <!-- {$listing.label|@print_r} -->
-                    <!-- {$listing.products|@print_r} -->
-                    <!-- {$listing.pagination|@print_r} -->
-                    <!-- <pre>{$listing.pagination|@print_r}</pre> -->
-                    <!-- <pre>{$page|@print_r}</pre> -->
 
                     {assign var=actpage value=Tools::getValue('page')}
                     <!-- taken from /themes/vinova_digimart/templates/catalog/listing/product-list.tpl -->
