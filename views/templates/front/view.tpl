@@ -41,9 +41,54 @@
         {block name='page_content_top'}{/block}
         {block name='page_content'}
           	{if $products}
-          		<div class="row">
-					{include file='_partials/layout/items/item_one.tpl' class_item='col-lg-3 col-md-3' number_row=1}
+
+              <div class="row">
+                {if count($products) < (int)Configuration::get('PS_PRODUCTS_PER_PAGE')}
+                    {assign var=listing value=['label'=>'', 'products' => $products]}
+                    {block name='product_list'}
+                      {include file='catalog/_partials/products.tpl' listing=$listing}
+                    {/block}
+                {else}
+
+                    {assign var=num_prod value=count($products)}
+                    {assign var=num_def value=(int)Configuration::get('PS_PRODUCTS_PER_PAGE')}
+                    {assign var=num_pages value=$num_prod/$num_def}
+
+                    <!-- Assign the get parameters inside the current url to variables -->
+                    {assign var=fc value=Tools::getValue('fc')}
+                    {assign var=module value=Tools::getValue('module')}
+                    {assign var=controller value=Tools::getValue('controller')}
+                    {assign var=orderby value=Tools::getValue('orderby')}
+                    {assign var=orderway value=Tools::getValue('orderway')}
+                    {assign var=id_category value=Tools::getValue('id_category')}
+                    {assign var=search_query value=Tools::getValue('search_query')}
+                    {assign var=submit_search value=Tools::getValue('submit_search')}
+
+                    {assign var=url value="`$link->getModuleLink('novadvancedsearch', 'result')|escape:'html'`?fc=`$fc`&module=`$module`&controller=`$controller`&orderby=`$orderby`&orderway=`$orderway`&id_category=`$id_category`&search_query=`$search_query`&page=1&submit_search=`$submit_search`"}
+                    {assign var=pages value=[['type' => page, 'page' => 1, 'clickable' => 1, 'current' => 1, 'url' => $url]]}
+
+                    {for $var=2 to $numpages}
+                      {assign var=url value="`$link->getModuleLink('novadvancedsearch', 'result')|escape:'html'`?fc=`$fc`&module=`$module`&controller=`$controller`&orderby=`$orderby`&orderway=`$orderway`&id_category=`$id_category`&search_query=`$search_query`&page=`$var`&submit_search=`$submit_search`"}
+                      {append var=pages value=['type' => page, 'page' => $var, 'clickable' => 1, 'current' => 1, 'url' => $url]}
+                    {/for}
+
+                    {assign var=pagination value=['total_items' => $total, 'items_shown_from' => 1, 'items_shown_to' => (int)Configuration::get('PS_PRODUCTS_PER_PAGE'), 'pages' => $pages]}
+                    {assign var=listing value=['label'=>'', 'products' => $products, 'pagination' => $pagination]}
+
+                    {assign var=actpage value=Tools::getValue('page')}
+                    <!-- taken from /themes/vinova_digimart/templates/catalog/listing/product-list.tpl -->
+                    {block name='product_list'}
+                      {include file='catalog/_partials/products.tpl' listing=$listing}
+                    {/block}
+
+                    <!-- taken from /themes/vinova_digimart/templates/catalog/listing/product-list.tpl -->
+                    {block name='product_list_bottom'}
+                    	{include file='catalog/_partials/products-bottom-nas.tpl' listing=$listing actpage=$actpage}
+                    {/block}
+                {/if}
+
 				</div>
+
 			{else}
 				{l s="Sorry for the inconvenience."}
 			{/if}
